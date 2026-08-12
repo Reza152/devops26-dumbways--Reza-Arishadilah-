@@ -49,4 +49,4 @@ Berikut beberapa command Linux yang saya gunakan dalam video beserta penjelasann
 Beberapa command tersebut saya coba langsung di Ubuntu Server dan hasilnya ditampilkan di dalam video.
 
 Video dokumentasi:
-**[[Link Video](MASUKKAN-LINK-VIDEO-DISINI)](https://drive.google.com/file/d/1qzkxAn5zwNH9N9BywLqi1MlFG9MhUxG2/view?usp=drive_link)**
+**(https://drive.google.com/file/d/1qzkxAn5zwNH9N9BywLqi1MlFG9MhUxG2/view?usp=drive_link)**
