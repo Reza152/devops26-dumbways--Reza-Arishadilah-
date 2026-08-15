@@ -27,14 +27,18 @@ git status
 git add
 git commit
 git push
+```
 
 ## 4. Mencari perubahan text
 
 Perubahan text pada file dapat dilihat menggunakan perintah:
 
+```bash
 git diff
-
+```
 perubahan pada `file1.txt` :
 
+```
 - - Nama: Reza
 - + Nama: Reza Arishadilah 
+```
