@@ -43,4 +43,33 @@ Infrastruktur terbagi menjadi dua Virtual Machine (VM) pada VPC AWS:
    ```bash
    npx sequelize-cli db:migrate
    ```
-   
+3. **Menjalankan Service via PM2:
+   ```bash
+   pm2 start ecosystem.config.js
+   pm2 save
+   ```
+## B. Setup Frontend & Gateway Server (172.31.1.31)
+Konfigurasi Client API:
+Menyesuaikan `src/config/api.js` agar endpoint API mengarah ke domain SSL API:
+```https://api.rezaarishadilah.studentdumbways.my.id/api/v1```
+
+Menjalankan Frontend via PM2:
+
+```Bash
+pm2 start ecosystem.config.js
+pm2 save
+```
+Konfigurasi Nginx Reverse Proxy & SSL:
+File konfigurasi dibuat di `/etc/nginx/conf.d/wayshub.conf:`
+
+Traffic domain `rezaarishadilah.studentdumbways.my.id` di-proxy ke `http://127.0.0.1:3000.`
+
+Traffic subdomain `api.rezaarishadilah.studentdumbways.my.id` di-proxy ke `http://172.31.15.141:5000.`
+
+Sertifikat SSL di-generate menggunakan certbot --nginx.
+
+
+###🔗 Link Pengujian & EndpointServiceDomain / URLTarget InternalFrontend 
+```
+Webhttps://rezaarishadilah.studentdumbways.my.idlocalhost:3000Backend APIhttps://api.rezaarishadilah.studentdumbways.my.id/api/v1172.31.15.141:5000
+```
