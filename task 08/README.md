@@ -1,7 +1,4 @@
-# WaysHub Infrastructure, Docker, SSL, & CI/CD Documentation — Reza Arishadilah
-
-Dokumentasi ini merinci arsitektur infrastruktur multi-server (3 VM), konfigurasi kontainerisasi Docker, implementasi SSL Wildcard, serta pembagian otomatisasi Continuous Integration & Continuous Deployment (CI/CD) menggunakan Jenkins (untuk Frontend) dan GitHub Actions (untuk Backend) pada aplikasi WaysHub.
-
+# WaysHub Infrastructure, Docker, SSL, & CI/CD Documentation 
 ---
 
 ## 🌐 1. Arsitektur Infrastruktur (Multi-VM)
