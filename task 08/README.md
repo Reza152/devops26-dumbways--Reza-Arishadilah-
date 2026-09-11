@@ -1,7 +1,7 @@
 # WaysHub Infrastructure, Docker, SSL, & CI/CD Documentation 
 ---
 
-## 🌐 1. Arsitektur Infrastruktur (Multi-VM)
+##  1. Arsitektur Infrastruktur (Multi-VM)
 
 Infrastruktur ini dibagi secara terisolasi ke dalam 3 Virtual Machine (VM) untuk memastikan pemisahan layer layanan (Gateway, App/Staging, dan Database):
 
@@ -25,7 +25,7 @@ Infrastruktur ini dibagi secara terisolasi ke dalam 3 Virtual Machine (VM) untuk
 
 ---
 
-## 🔒 2. Konfigurasi SSL Wildcard & Nginx Proxy
+##  2. Konfigurasi SSL Wildcard & Nginx Proxy
 
 * **SSL Cloudflare Status:** Dimatikan (OFF).
 * **SSL Wildcard:** Menggunakan sertifikat wildcard lokal (Let's Encrypt) yang terpasang pada Nginx Reverse Proxy di VM 1 untuk mengamankan seluruh subdomain secara terpusat.
@@ -36,7 +36,7 @@ Infrastruktur ini dibagi secara terisolasi ke dalam 3 Virtual Machine (VM) untuk
 
 ---
 
-## 🐳 3. Konfigurasi Docker & Multi-Stage Build
+##  3. Konfigurasi Docker & Multi-Stage Build
 
 * **Custom Network:** Menggunakan jaringan virtual Docker khusus (`staging-wayshub_reza_network`) yang dipasang ke setiap service untuk mengamankan komunikasi antar-kontainer.
 * **Multi-Stage Build (Frontend & Backend):**
@@ -48,7 +48,7 @@ Infrastruktur ini dibagi secara terisolasi ke dalam 3 Virtual Machine (VM) untuk
 
 ---
 
-## 🔄 4. Alur CI/CD Pipeline (Jenkins & GitHub Actions)
+##  4. Alur CI/CD Pipeline (Jenkins & GitHub Actions)
 
 ### Frontend Pipeline (Jenkins di VM 1):
 1. **Pull dari SCM:** Otomatis menarik kode terbaru dari repository frontend menggunakan SCM Polling.
