@@ -489,3 +489,5 @@ Notification firing dan resolved berhasil dikirim melalui Discord.
 SSL
 
 Domain monitoring dapat diakses menggunakan HTTPS.
+
+## [Automation Repository](https://github.com/Reza152/Automation)
