@@ -490,4 +490,4 @@ SSL
 
 Domain monitoring dapat diakses menggunakan HTTPS.
 
-## [Automation Repository](https://github.com/Reza152/Automation)
+## [Automation Repository](https://github.com/Reza152/Automation.git)
