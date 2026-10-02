@@ -496,5 +496,182 @@ Ansible Core yang digunakan:
 
 ### 23. Struktur Directory Ansible
 Struktur directory Ansible pada project ini:
+![Terraform Version](./screenshots/12-folder%20ansible.png)
 
+Fungsi Directory dan File:
+| Directory/File | Fungsi |
+|---|---|
+| `ansible.cfg` | Konfigurasi Ansible |
+| `inventory/hosts.ini` | Daftar server yang dikelola Ansible |
+| `inventory/group_vars/all.yaml` | Variable koneksi dan konfigurasi umum |
+| `inventory/group_vars/vault.yaml` | Menyimpan variable sensitif menggunakan Ansible Vault |
+| `files/registry/` | File konfigurasi Private Docker Registry |
+| `playbooks/site.yml` | Playbook konfigurasi awal server |
+| `playbooks/docker.yaml` | Instalasi Docker dan konfigurasi registry pada Gateway |
+| `playbooks/docker-app.yaml` | Konfigurasi Docker pada Application Server |
+| `playbooks/postgres.yaml` | Deployment PostgreSQL pada Database Server |
+| `playbooks/backend.yaml` | Deployment Backend |
+| `playbooks/frontend.yaml` | Deployment Frontend |
+| `playbooks/loadbalancer.yaml` | Deployment replica aplikasi |
+| `playbooks/loadbalancer-nginx.yaml` | Konfigurasi NGINX Load Balancer |
+| `roles/` | Directory untuk Ansible Roles |
+
+### 24. Ansible Configuration
+```
+ansible.cfg
+```
+digunakan untuk menentukan konfigurasi Ansible.
+Konfigurasi yang digunakan:
+```
+[defaults]
+inventory = inventory/hosts.ini
+host_key_checking = False
+
+[ssh_connection]
+ssh_args = -o ForwardAgent=yes
+```
+
+Konfigurasi tersebut digunakan agar Ansible menggunakan inventory/hosts.ini sebagai inventory dan mendukung SSH agent forwarding.
+
+### 25. Ansible Inventory
+```
+inventory/hosts.ini
+```
+digunakan untuk mendefinisikan server yang dikelola oleh Ansible.
+Konfigurasi inventory:
+```
+[gateway]
+15.232.170.170
+
+[app]
+108.137.111.48
+
+[db]
+15.232.94.115
+```
+Server dibagi menjadi tiga group:
+
+| Group | Server | Public IP |
+|---|---|---|
+| `gateway` | Gateway Server | `15.232.170.170` |
+| `app` | Application Server | `108.137.111.48` |
+| `db` | Database Server | `15.232.94.115` |
+
+### 26. Ansible Group Variables
+```
+inventory/group_vars/all.yaml
+```
+digunakan untuk menentukan konfigurasi koneksi SSH Ansible.
+```
+ansible_user: reza
+ansible_port: 3333
+ansible_ssh_private_key_file: ~/.ssh/terraform-reza
+```
+Konfigurasi tersebut berarti Ansible menggunakan:
+| Konfigurasi | Value |
+|---|---|
+| User | `reza` |
+| SSH Port | `3333` |
+| SSH Key | `~/.ssh/terraform-reza` |
+
+Selain all.yaml, terdapat:
+```inventory/group_vars/vault.yaml```
+File tersebut digunakan untuk menyimpan variable yang bersifat sensitif menggunakan Ansible Vault.
+
+
+### 27. Ansible Ping
+Sebelum menjalankan playbook, koneksi ke seluruh server diuji menggunakan Ansible.
+``` ansible all -m ping ```
+
+Jika koneksi berhasil, setiap server memberikan response:
+`pong`
+Pengujian ini memastikan Ansible dapat terhubung ke:
+```
+- Gateway
+- App
+- DB
+```
+![Terraform Version](./screenshots/07-Ansible%20Ping%20ke%20Semua%20Server.png)
+
+### 28. Ansible Playbook
+Ansible digunakan untuk menjalankan berbagai konfigurasi dan deployment pada server.
+Playbook yang terdapat pada project:
+| Playbook | Fungsi |
+|---|---|
+| `site.yml` | Konfigurasi awal server |
+| `docker.yaml` | Instalasi Docker dan konfigurasi Private Registry |
+| `docker-app.yaml` | Konfigurasi Docker pada App Server |
+| `postgres.yaml` | Deployment PostgreSQL |
+| `backend.yaml` | Deployment Backend |
+| `frontend.yaml` | Deployment Frontend |
+| `loadbalancer.yaml` | Membuat replica aplikasi untuk load balancing |
+| `loadbalancer-nginx.yaml` | Konfigurasi NGINX sebagai Load Balancer |
+
+## Playbook `site.yml`
+Playbook utama untuk konfigurasi awal server:
+```
+---
+- name: Configure all servers
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Ensure user reza exists
+      ansible.builtin.user:
+        name: reza
+        groups: sudo
+        append: true
+        state: present
+```
+Playbook tersebut memastikan user reza tersedia pada seluruh server dan memiliki akses ke group sudo.
+## Penjelasan
+`hosts: all`
+Playbook dijalankan pada seluruh server yang terdapat pada inventory.
+`become: true`
+Digunakan untuk menjalankan task dengan privilege escalation atau sudo.
+`ansible.builtin.user`
+Module Ansible yang digunakan untuk mengelola user Linux.
+`name: reza`
+Memastikan user reza tersedia.
+`groups: sudo`
+Menambahkan user reza ke group sudo.
+`append: true`
+Mempertahankan group yang sudah dimiliki user.
+`state: present`
+Memastikan user berada dalam kondisi tersedia.
+
+### 29. Menjalankan Ansible Playbook
+Playbook konfigurasi awal dijalankan menggunakan:
+```
+ansible-playbook -i inventory/hosts.ini playbooks/site.yml -K
+```
+Keterangan:
+```-i inventory/hosts.ini```
+
+Digunakan untuk menentukan inventory yang digunakan Ansible.
+```-K```
+
+Digunakan agar Ansible meminta password sudo/become.
+
+![Terraform Version](./screenshots/08-Ansible%20Playbook%20Execution.png)
+
+Jika berhasil, hasil akhir menunjukkan:
+```
+failed=0
+unreachable=0
+```
+Artinya playbook berhasil dijalankan tanpa server yang unreachable atau task yang gagal.
+
+### 30. SSH Configuration
+SSH digunakan untuk mengakses server dengan satu SSH key.
+Konfigurasi SSH:
+
+![Terraform Version](./screenshots/13-ssh%20config.png)
+
+Dengan konfigurasi tersebut, server dapat diakses menggunakan alias:
+`
+ssh gateway
+ssh app
+ssh db
+`
 
