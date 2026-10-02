@@ -59,4 +59,30 @@ Perintah:
 
 Terraform yang digunakan:
 ```Terraform v1.16.2```
+
 ![Terraform Version](./screenshots/01-Mengecek%20versi%20Terraform.png)
+
+## 4. Struktur Folder Terraform
+Konfigurasi Terraform disimpan dalam satu directory agar
+infrastructure lebih mudah dikelola.
+```
+Struktur directory:
+terraform/
+├── providers.tf
+├── variables.tf
+├── main.tf
+├── outputs.tf
+└── terraform.tfvars
+```
+Fungsi masing-masing file:
+```
+File	Fungsi
+providers.tf	Konfigurasi Terraform dan AWS Provider
+variables.tf	Mendefinisikan variable Terraform
+terraform.tfvars	Menentukan nilai variable
+main.tf	Mendefinisikan resource infrastructure
+outputs.tf	Menampilkan hasil provisioning
+```
+
+Screenshot struktur Terraform:
+
