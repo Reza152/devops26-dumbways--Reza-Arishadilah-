@@ -393,7 +393,7 @@ Private key tidak disimpan di repository.
 
 ### 14. Provisioning Server
 Terraform digunakan untuk membuat tiga EC2 instance.
-### Gateway
+## Gateway
 | Item | Value |
 |---|---|
 | Instance | `i-0691c2578dfda2d8e` |
@@ -402,5 +402,40 @@ Terraform digunakan untuk membuat tiga EC2 instance.
 | CPU | 1 |
 | RAM | 1 GB |
 
-##
+## App
+| Item | Value |
+|---|---|
+| Instance | `i-05526d0531adab746` |
+| Public IP | `108.137.111.48` |
+| Private IP | `10.0.1.215` |
+| CPU | 2 |
+| RAM | 2 GB |
+
+## DB
+| Item | Value |
+|---|---|
+| Instance | `i-0977cf9289ac899da` |
+| Public IP | `15.232.94.115` |
+| Private IP | `10.0.1.216` |
+| CPU | 1 |
+| RAM | 1 GB |
+
+### 15. Terraform Init
+Setelah konfigurasi Terraform selesai dibuat, dilakukan initialization.
+Perintah:
+``` terraform init ```
+Perintah tersebut digunakan untuk:
+- Menginisialisasi working directory Terraform.
+- Mengunduh provider yang dibutuhkan.
+- Menyiapkan Terraform untuk menjalankan konfigurasi.
+
+![Terraform Version](./screenshots/02-terraform%20init.png.png)
+
+### 16. Terraform Validate
+Setelah initialization selesai, konfigurasi diperiksa menggunakan:
+```terraform validate```
+
+Perintah ini digunakan untuk memastikan konfigurasi Terraform valid secara syntax dan struktur.
+
+![Terraform Version](./screenshots/03-terraform%20validate.png)
 
