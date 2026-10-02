@@ -63,28 +63,56 @@ Terraform yang digunakan:
 ![Terraform Version](./screenshots/01-Mengecek%20versi%20Terraform.png)
 
 ## 4. Struktur Folder Terraform
-Konfigurasi Terraform disimpan dalam satu directory agar
-infrastructure lebih mudah dikelola.
-```
-Struktur directory:
+
+Terraform pada project ini menggunakan pendekatan modular untuk
+memisahkan konfigurasi berdasarkan fungsi infrastructure.
+
+Struktur directory Terraform:
+
+```text
 terraform/
-├── providers.tf
-├── variables.tf
 ├── main.tf
+├── modules/
+│   ├── compute/
+│   │   ├── ec2.tf
+│   │   ├── outputs.tf
+│   │   ├── scripts/
+│   │   │   ├── app.sh
+│   │   │   ├── db.sh
+│   │   │   └── gateway.sh
+│   │   └── variables.tf
+│   │
+│   ├── network/
+│   │   ├── outputs.tf
+│   │   ├── routing.tf
+│   │   ├── subnet.tf
+│   │   ├── variables.tf
+│   │   └── vpc.tf
+│   │
+│   └── security/
+│       ├── outputs.tf
+│       ├── security_group.tf
+│       └── variables.tf
+│
 ├── outputs.tf
-└── terraform.tfvars
+├── providers.tf
+├── terraform.tfvars
+└── variables.tf
 ```
-Fungsi masing-masing file:
+Struktur tersebut dibagi menjadi beberapa bagian:
 
-Fungsi masing-masing file:
-
-| File | Fungsi |
+| Directory/File | Fungsi |
 |---|---|
+| `main.tf` | Entry point konfigurasi Terraform dan pemanggilan module |
+| `modules/compute/` | Konfigurasi EC2 server |
+| `modules/network/` | Konfigurasi VPC, subnet, dan routing |
+| `modules/security/` | Konfigurasi Security Group |
+| `scripts/` | Script konfigurasi awal masing-masing server |
 | `providers.tf` | Konfigurasi Terraform dan AWS Provider |
-| `variables.tf` | Mendefinisikan variable Terraform |
-| `terraform.tfvars` | Menentukan nilai variable |
-| `main.tf` | Mendefinisikan resource infrastructure |
-| `outputs.tf` | Menampilkan hasil provisioning |
+| `variables.tf` | Variable utama Terraform |
+| `terraform.tfvars` | Nilai variable Terraform |
+| `outputs.tf` | Output hasil provisioning |
 
 Screenshot struktur Terraform:
+
 
