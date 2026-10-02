@@ -115,4 +115,4 @@ Struktur tersebut dibagi menjadi beberapa bagian:
 
 Screenshot struktur Terraform:
 
-
+![Terraform Version](./screenshots/11-folder%20terraform.png)
