@@ -116,3 +116,34 @@ Struktur tersebut dibagi menjadi beberapa bagian:
 Screenshot struktur Terraform:
 
 ![Terraform Version](./screenshots/11-folder%20terraform.png)
+
+## 5. AWS Provider
+Terraform membutuhkan AWS Provider agar dapat berkomunikasi dengan
+AWS.
+File yang digunakan:
+```providers.tf```
+
+Konfigurasi provider digunakan untuk menentukan AWS sebagai provider
+dan region yang digunakan.
+Contoh konfigurasi:
+```
+terraform {
+  required_version = ">= 1.0.0"
+
+  required_providers {
+    aws = {
+      source = "hashicorp/aws"
+    }
+  }
+}
+
+provider "aws" {
+  region = var.aws_region
+}
+```
+Region yang digunakan:
+```ap-southeast-3```
+Region tersebut merupakan AWS Jakarta.
+
+
+
