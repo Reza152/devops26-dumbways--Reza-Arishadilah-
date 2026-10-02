@@ -59,3 +59,4 @@ Perintah:
 
 Terraform yang digunakan:
 ```Terraform v1.16.2```
+![Terraform Version](./screenshots/01-terraform-versi-Terraform.png)
