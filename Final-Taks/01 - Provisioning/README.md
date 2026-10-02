@@ -145,5 +145,66 @@ Region yang digunakan:
 ```ap-southeast-3```
 Region tersebut merupakan AWS Jakarta.
 
+## 6. Variable Terraform
+File:
+```variables.tf```
 
+digunakan untuk mendefinisikan variable yang digunakan oleh
+Terraform.
+Contoh:
+```
+variable "aws_region" {
+  description = "AWS Region Jakarta"
+  type        = string
+  default     = "ap-southeast-3"
+}
+
+variable "allowed_ssh_cidr" {
+  description = "CIDR yang diizinkan untuk SSH"
+  type        = string
+}
+```
+Variable digunakan agar konfigurasi Terraform lebih mudah dikelola
+dan nilai tertentu tidak perlu ditulis berulang kali.
+
+## 7. Network Infrastructure
+Terraform digunakan untuk membuat network AWS yang digunakan oleh seluruh server.
+Module network pada project ini terdiri dari:
+
+| File | Fungsi |
+|---|---|
+| `vpc.tf` | Konfigurasi VPC |
+| `subnet.tf` | Konfigurasi subnet |
+| `routing.tf` | Konfigurasi Internet Gateway dan routing |
+| `variables.tf` | Variable yang digunakan module network |
+| `outputs.tf` | Output dari resource network |
+
+Struktur module:
+```
+modules/
+└── network/
+    ├── outputs.tf
+    ├── routing.tf
+    ├── subnet.tf
+    ├── variables.tf
+    └── vpc.tf
+```
+Network tersebut digunakan oleh tiga server:
+
+                         Internet
+                            |
+                    Internet Gateway
+                            |
+                           VPC
+                            |
+                     Public Subnet
+                            |
+          ┌─────────────────┼─────────────────┐
+          │                 │                 │
+       Gateway             App               DB
+          │                 │                 │
+    10.0.1.108         10.0.1.215        10.0.1.216
+
+Ketiga server berada dalam VPC yang sama dan menggunakan subnet yang telah dibuat oleh Terraform.
+    
 
