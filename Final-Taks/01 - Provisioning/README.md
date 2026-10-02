@@ -277,17 +277,130 @@ Server yang digunakan dalam deployment saat ini berada pada Public Subnet 10.0.1
 | App | `10.0.1.215` | Public |
 | DB | `10.0.1.216` | Public |
 
+Private Subnet 10.0.2.0/24 dibuat oleh Terraform tetapi belum digunakan oleh ketiga server pada deployment saat ini.
+
 
 ### 10. Internet Gateway
-Internet Gateway digunakan agar VPC dapat berkomunikasi dengan
-internet.
-Konfigurasi:
+Internet Gateway digunakan agar VPC dapat berkomunikasi dengan internet.
+Konfigurasi terdapat pada:
+```modules/network/routing.tf```
 ```
-resource "aws_internet_gateway" "gw" {
+resource "aws_internet_gateway" "main" {
   vpc_id = aws_vpc.main.id
+
+  tags = {
+    Name    = "${var.project_name}-igw"
+    Project = var.project_name
+  }
 }
 ```
 Internet Gateway dihubungkan dengan VPC yang telah dibuat.
 
+### 11. Route Table
+Route Table digunakan untuk menentukan jalur traffic jaringan pada VPC.
+Pada konfigurasi terdapat Public Route Table dan Private Route Table.
+Public Route Table
+Public Route Table digunakan oleh Public Subnet `10.0.1.0/24`.
+```
+resource "aws_route_table" "public" {
+  vpc_id = aws_vpc.main.id
 
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.main.id
+  }
+
+  tags = {
+    Name    = "${var.project_name}-public-rt"
+    Project = var.project_name
+  }
+}
+```
+Route:
+| Destination | Target |
+|---|---|
+| `0.0.0.0/0` | Internet Gateway |
+
+Route tersebut digunakan untuk mengarahkan traffic dari Public Subnet menuju Internet Gateway.
+Public Route Table dihubungkan dengan Public Subnet:
+```
+resource "aws_route_table_association" "public" {
+  subnet_id      = aws_subnet.public.id
+  route_table_id = aws_route_table.public.id
+}
+```
+Private Route Table
+Private Route Table digunakan oleh Private Subnet `10.0.2.0/24`.
+
+```
+resource "aws_route_table" "private" {
+  vpc_id = aws_vpc.main.id
+
+  tags = {
+    Name    = "${var.project_name}-private-rt"
+    Project = var.project_name
+  }
+}
+```
+Private Route Table dihubungkan dengan Private Subnet:
+```
+resource "aws_route_table_association" "private" {
+  subnet_id      = aws_subnet.private.id
+  route_table_id = aws_route_table.private.id
+}
+```
+Pada konfigurasi saat ini, Private Route Table tidak memiliki route 0.0.0.0/0 menuju Internet Gateway.
+
+### 12. Security Group
+Security Group digunakan sebagai firewall virtual untuk mengatur traffic yang masuk dan keluar dari EC2.
+Konfigurasi Security Group terdapat pada:
+```modules/security/security_group.tf```
+
+Akses SSH menggunakan port:
+```3333```
+
+CIDR yang digunakan untuk akses SSH:
+```119.235.222.96/32```
+
+Port yang digunakan oleh server:
+| Server | Port | Fungsi |
+|---|---:|---|
+| Gateway | 3333 | SSH |
+| Gateway | 80 | HTTP |
+| Gateway | 443 | HTTPS |
+| App | 3333 | SSH |
+| App | 80 | HTTP |
+| App | 3000 | Backend |
+| App | 3001 | Frontend |
+| App | 8080 | Application |
+| DB | 3333 | SSH |
+| DB | 5432 | PostgreSQL |
+
+PostgreSQL pada DB digunakan oleh Application Server melalui private network.
+
+### 13. SSH Key
+SSH key digunakan untuk melakukan koneksi dari local machine ke server AWS.
+SSH key yang digunakan:
+`~/.ssh/terraform-reza`
+
+Satu SSH key digunakan untuk:
+```
+- Gateway
+- App
+- DB
+```
+Private key tidak disimpan di repository.
+
+### 14. Provisioning Server
+Terraform digunakan untuk membuat tiga EC2 instance.
+### Gateway
+| Item | Value |
+|---|---|
+| Instance | `i-0691c2578dfda2d8e` |
+| Public IP | `15.232.170.170` |
+| Private IP | `10.0.1.108` |
+| CPU | 1 |
+| RAM | 1 GB |
+
+##
 
