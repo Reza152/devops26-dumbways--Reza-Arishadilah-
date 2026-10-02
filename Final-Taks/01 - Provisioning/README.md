@@ -76,12 +76,12 @@ terraform/
 ```
 Fungsi masing-masing file:
 ```
-File	Fungsi
-providers.tf	Konfigurasi Terraform dan AWS Provider
-variables.tf	Mendefinisikan variable Terraform
-terraform.tfvars	Menentukan nilai variable
-main.tf	Mendefinisikan resource infrastructure
-outputs.tf	Menampilkan hasil provisioning
+File	| Fungsi
+providers.tf	| Konfigurasi Terraform dan AWS Provider
+variables.tf	| Mendefinisikan variable Terraform
+terraform.tfvars	| Menentukan nilai variable
+main.tf	| Mendefinisikan resource infrastructure
+outputs.tf  |	Menampilkan hasil provisioning
 ```
 
 Screenshot struktur Terraform:
