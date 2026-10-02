@@ -429,7 +429,7 @@ Perintah tersebut digunakan untuk:
 - Mengunduh provider yang dibutuhkan.
 - Menyiapkan Terraform untuk menjalankan konfigurasi.
 
-![Terraform Version](./screenshots/02-terraform%20init.png.png)
+![Terraform Version](./screenshots/02-terraform%20init.png)
 
 ### 16. Terraform Validate
 Setelah initialization selesai, konfigurasi diperiksa menggunakan:
@@ -438,4 +438,63 @@ Setelah initialization selesai, konfigurasi diperiksa menggunakan:
 Perintah ini digunakan untuk memastikan konfigurasi Terraform valid secara syntax dan struktur.
 
 ![Terraform Version](./screenshots/03-terraform%20validate.png)
+
+### 17. Terraform Plan
+Sebelum membuat infrastructure, dilakukan pengecekan menggunakan:
+```terraform plan```
+
+Terraform akan menampilkan resource yang akan dibuat, diubah, atau dihapus.
+Tahap ini digunakan untuk memastikan rencana infrastructure sudah sesuai sebelum menjalankan provisioning.
+
+![Terraform Version](./screenshots/04-terraform%20plan.png)
+
+### 18. Terraform Output
+Setelah infrastructure berhasil dibuat, output Terraform dapat digunakan untuk melihat informasi hasil provisioning.
+Perintah:
+```terraform output```
+
+Output digunakan untuk melihat informasi yang didefinisikan sebagai Terraform output, termasuk informasi server yang diperlukan.
+
+![Terraform Version](./screenshots/05-terraform%20output.png)
+
+### 19. Terraform Apply
+Setelah konfigurasi diperiksa menggunakan terraform plan, infrastructure dibuat menggunakan:
+```terraform apply```
+
+Terraform kemudian meminta konfirmasi sebelum membuat resource.
+```yes```
+
+Setelah dikonfirmasi, Terraform membuat resource AWS sesuai dengan konfigurasi.
+
+### 20. Hasil Provisioning
+Setelah Terraform selesai dijalankan, tiga server tersedia:
+| Server | Private IP | Public IP |
+|---|---|---|
+| Gateway | `10.0.1.108` | `15.232.170.170` |
+| App | `10.0.1.215` | `108.137.111.48` |
+| DB | `10.0.1.216` | `15.232.94.115` |
+
+### 21. Ansible
+Setelah infrastructure berhasil dibuat menggunakan Terraform, Ansible digunakan untuk melakukan konfigurasi dan deployment pada server.
+Ansible digunakan untuk mengelola konfigurasi server secara otomatis melalui SSH.
+Struktur Ansible pada project ini terdiri dari:
+
+- `inventory/` untuk mendefinisikan server dan variable.
+- `playbooks/` untuk menyimpan playbook konfigurasi dan deployment.
+- `files/` untuk menyimpan file yang akan dikirim ke server.
+- `roles/` untuk struktur role Ansible.
+- `ansible.cfg` untuk konfigurasi Ansible.
+
+### 22. Mengecek Versi Ansible
+Versi Ansible diperiksa menggunakan:
+```ansible --version```
+
+Ansible Core yang digunakan:
+```2.20.1```
+![Terraform Version](./screenshots/06-ansible%20version.png)
+
+
+### 23. Struktur Directory Ansible
+Struktur directory Ansible pada project ini:
+
 
