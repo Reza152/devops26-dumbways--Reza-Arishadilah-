@@ -28,7 +28,7 @@ Frontend menggunakan repository private:
 Repository digunakan untuk menyimpan source code frontend aplikasi DumbMerch.
 
 
-![Frontend Private Repository](./screenshots/01-fe-private-repository.png)
+![Frontend Private Repository](./screenshots/01-fe-private-repository..png)
 
 
 
