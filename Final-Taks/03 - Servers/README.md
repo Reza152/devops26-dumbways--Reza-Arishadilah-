@@ -226,22 +226,22 @@ ssh db
 ### 8. Firewall Configuration
 Firewall menggunakan UFW.
 Konfigurasi firewall berbeda berdasarkan fungsi masing-masing server.
-`
+```
 Gateway
 3333/tcp
 80/tcp
 443/tcp
-`
-`
+```
+```
 App
 3333/tcp
 3000/tcp
 8080/tcp
-`
-`
+```
+```
 DB
 3333/tcp
 5432/tcp
-`
+```
 Port PostgreSQL 5432 pada DB dibatasi agar dapat diakses dari Application Server dengan private IP:
 `10.0.1.215`
