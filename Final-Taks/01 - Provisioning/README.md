@@ -207,4 +207,87 @@ Network tersebut digunakan oleh tiga server:
 
 Ketiga server berada dalam VPC yang sama dan menggunakan subnet yang telah dibuat oleh Terraform.
     
+### 8. VPC
+VPC digunakan sebagai jaringan virtual untuk server yang dibuat
+di AWS.
+Konfigurasi VPC:
+```
+resource "aws_vpc" "main" {
+  cidr_block           = "10.0.0.0/16"
+  enable_dns_hostnames = true
+
+  tags = {
+    Name = "VPC"
+  }
+}
+```
+CIDR VPC:
+```10.0.0.0/16```
+VPC menjadi jaringan utama yang digunakan oleh Gateway, App, dan DB.
+
+### 9. Subnet
+Subnet digunakan untuk membagi jaringan VPC menjadi beberapa jaringan berdasarkan kebutuhan server.
+Pada konfigurasi Terraform, terdapat dua subnet, yaitu Public Subnet dan Private Subnet.
+Konfigurasi `subnet.tf`
+
+```
+resource "aws_subnet" "public" {
+  vpc_id                  = aws_vpc.main.id
+  cidr_block              = "10.0.1.0/24"
+  availability_zone       = var.availability_zone
+  map_public_ip_on_launch = true
+
+  tags = {
+    Name    = "${var.project_name}-public-subnet"
+    Project = var.project_name
+  }
+}
+
+resource "aws_subnet" "private" {
+  vpc_id                  = aws_vpc.main.id
+  cidr_block              = "10.0.2.0/24"
+  availability_zone       = var.availability_zone
+  map_public_ip_on_launch = false
+
+  tags = {
+    Name    = "${var.project_name}-private-subnet"
+    Project = var.project_name
+  }
+}
+```
+Konfigurasi Subnet
+| Subnet | CIDR | Public IP |
+|---|---|---|
+| Public Subnet | `10.0.1.0/24` | Enabled |
+| Private Subnet | `10.0.2.0/24` | Disabled |
+
+Pada konfigurasi tersebut:
+- Public Subnet 10.0.1.0/24 menggunakan map_public_ip_on_launch = true, sehingga instance yang dibuat pada subnet tersebut dapat memperoleh Public IP secara   otomatis.
+- Private Subnet 10.0.2.0/24 menggunakan map_public_ip_on_launch = false, sehingga Public IP tidak diberikan secara otomatis.
+- Kedua subnet berada pada VPC yang sama.
+- Availability Zone ditentukan melalui variable var.availability_zone.
+- Nama subnet menggunakan var.project_name.
+
+Private IP Server
+Server yang digunakan dalam deployment saat ini berada pada Public Subnet 10.0.1.0/24:
+
+| Server | Private IP | Subnet |
+|---|---|---|
+| Gateway | `10.0.1.108` | Public |
+| App | `10.0.1.215` | Public |
+| DB | `10.0.1.216` | Public |
+
+
+### 10. Internet Gateway
+Internet Gateway digunakan agar VPC dapat berkomunikasi dengan
+internet.
+Konfigurasi:
+```
+resource "aws_internet_gateway" "gw" {
+  vpc_id = aws_vpc.main.id
+}
+```
+Internet Gateway dihubungkan dengan VPC yang telah dibuat.
+
+
 
