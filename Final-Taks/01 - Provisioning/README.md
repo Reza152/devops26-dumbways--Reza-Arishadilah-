@@ -27,3 +27,7 @@ AWS Region yang digunakan:
 ```text
 ap-southeast-3
 ```
+Region tersebut merupakan AWS Jakarta.
+
+## 2. Environment
+
