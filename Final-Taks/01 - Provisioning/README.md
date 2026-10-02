@@ -50,3 +50,12 @@ Terraform digunakan sebagai Infrastructure as Code (IaC).
 Dengan Terraform, infrastructure AWS dapat didefinisikan menggunakan
 file konfigurasi sehingga proses pembuatan server, network, security
 group, dan resource lainnya dapat dilakukan secara terstruktur.
+
+### 3.1 Mengecek Versi Terraform
+Sebelum melakukan provisioning, dilakukan pengecekan versi Terraform
+pada local machine.
+Perintah:
+```terraform version```
+
+Terraform yang digunakan:
+```Terraform v1.16.2```
