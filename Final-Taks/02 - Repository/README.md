@@ -18,7 +18,6 @@ Pada masing-masing repository digunakan dua branch:
 
 Branch tersebut digunakan untuk memisahkan environment staging dan production.
 
----
 
 ## 2. Frontend Repository
 
@@ -29,7 +28,7 @@ Frontend menggunakan repository private:
 Repository digunakan untuk menyimpan source code frontend aplikasi DumbMerch.
 
 
-![Frontend Private Repository](./screenshots/task-2-01-fe-private-repository.png)
+![Frontend Private Repository](./screenshots/01-fe%20private%20repository..png)
 
 
 
