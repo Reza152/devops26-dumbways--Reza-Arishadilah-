@@ -66,4 +66,5 @@ Hasil instalasi Docker berhasil:
 PLAY RECAP
 15.232.170.170 : ok=4 changed=2 unreachable=0 failed=0 skipped=0
 `
-(./screenshots/01-install-docker.png)
+
+![](./screenshots/01-install-docker.png)
